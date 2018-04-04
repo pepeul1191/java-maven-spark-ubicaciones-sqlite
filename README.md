@@ -4,6 +4,31 @@ Crear proyecto con Maven
 
     $ mvn archetype:generate -DgroupId=pe.softweb -DartifactId=JsonDB -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
 
+Desplegar proyecto en Tomcat usando maven sería con los siguientes comandos pero configurando maven:
+
+    $ mvn tomcat7:deploy
+    $ mvn tomcat7:redeploy
+
+```
+<build>
+    <finalName>JsonDB</finalName>
+    <plugins>
+        <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+            <path>/demo</path>
+            <update>true</update>
+            <url>http://localhost:8090/manager/text</url>
+            <username>root</username>
+            <password>123</password>
+        </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
 ### Instalación de Tomcat
 
 Crear usuario de tomcat:
@@ -76,7 +101,11 @@ Modificar los usuarios del servidor de aplicaciones están en el archivo '/opt/t
 
 ```
 <tomcat-users . . .>
-    <user username="admin" password="password" roles="manager-gui,admin-gui"/>
+    <role rolename="tomcat" />
+   	<role rolename="manager-gui" />
+    <role rolename="manager-script" />
+    <role rolename="admin-gui" />
+	<user username="root" password="123" roles="tomcat,manager-gui,admin-gui,manager-script"/>
 </tomcat-users>
 ```
 
@@ -92,3 +121,4 @@ Fuentes
 
 + https://www.mkyong.com/maven/how-to-create-a-web-application-project-with-maven/
 + https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
++ http://kosalads.blogspot.pe/2014/03/maven-deploy-war-in-tomcat-7.html
