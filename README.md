@@ -29,6 +29,41 @@ Desplegar proyecto en Tomcat usando maven sería con los siguientes comandos per
 </build>
 ```
 
+Crear war usando Maven:
+
+    $ mvn package
+
+Ejecutar Main Class usando Maven:
+
+    $ mvn exec:java -Dexec.mainClass="config.App"
+
+```
+<build>
+    <finalName>JsonDB</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+            <execution>
+                <goals>
+                <goal>java</goal>
+                </goals>
+            </execution>
+            </executions>
+            <configuration>
+            <mainClass>config.App</mainClass>
+            <arguments>
+                <argument>foo</argument>
+                <argument>bar</argument>
+            </arguments>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
 ### Instalación de Tomcat
 
 Crear usuario de tomcat:
@@ -122,3 +157,4 @@ Fuentes
 + https://www.mkyong.com/maven/how-to-create-a-web-application-project-with-maven/
 + https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
 + http://kosalads.blogspot.pe/2014/03/maven-deploy-war-in-tomcat-7.html
++ https://stackoverflow.com/questions/9846046/run-main-class-of-maven-project

@@ -23,6 +23,7 @@
   <build>
     <finalName>JsonDB</finalName>
     <plugins>
+      <!-- Desplegar en Tomcat -->
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
@@ -33,6 +34,26 @@
           <url>http://localhost:8090/manager/text</url>
           <username>root</username>
           <password>123</password>
+        </configuration>
+      </plugin>
+      <!-- Ejecutar Main Class  -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>config.App</mainClass>
+          <arguments>
+            <argument>foo</argument>
+            <argument>bar</argument>
+          </arguments>
         </configuration>
       </plugin>
     </plugins>
