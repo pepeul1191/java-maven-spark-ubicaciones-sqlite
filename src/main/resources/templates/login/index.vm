@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <form class="form-signin">
+        <h2 class="form-signin-heading" style="text-align:center">Bienvenido</h2>
+        <input type="text" class="form-control" name="username" placeholder="Usuario" required="" autofocus="" />
+        <input type="password" class="form-control" name="password" placeholder="Contrasenia" required=""/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Acceder</button>
+        <br>
+         <p class="small">Aplicación Desarrollada por Software Web Perú - <a href="http://softweb.pe/website">Ir</a></p>
+    </form>
+</div>

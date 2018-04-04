@@ -7,8 +7,9 @@ import spark.*;
 import spark.template.velocity.*;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import handlers.*;
 
-class App {
+public class App {
   public static void main(String args[]){
     //Config constants = ConfigFactory.parseResources("config/application.conf");
     //System.out.println("Hola mundo!??");
@@ -40,6 +41,8 @@ class App {
 			// Note: this may or may not be necessary in your particular application
 			//response.type("application/json");
 		});
+		//rutas
+		get("/", HomeHandler.index);
   }
 
   public static String renderTemplate(String template, Map model) {

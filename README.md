@@ -158,3 +158,4 @@ Fuentes
 + https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
 + http://kosalads.blogspot.pe/2014/03/maven-deploy-war-in-tomcat-7.html
 + https://stackoverflow.com/questions/9846046/run-main-class-of-maven-project
++ https://stackoverflow.com/questions/32923586/maven-lambda-expressions-are-not-supported-in-source-1-5
