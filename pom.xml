@@ -14,10 +14,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- Base de datos JsonDB-->
     <dependency>
       <groupId>io.jsondb</groupId>
       <artifactId>jsondb-core</artifactId>
       <version>1.0.36</version>
+    </dependency>
+    <!--Libería para leer el archivos *.conf-->
+    <dependency>
+      <groupId>com.typesafe</groupId>
+      <artifactId>config</artifactId>
+      <version>1.3.2</version>
     </dependency>
   </dependencies>
   <build>
