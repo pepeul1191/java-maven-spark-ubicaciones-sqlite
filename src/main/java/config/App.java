@@ -11,16 +11,15 @@ import handlers.*;
 
 public class App {
   public static void main(String args[]){
-    //Config constants = ConfigFactory.parseResources("config/application.conf");
-    //System.out.println("Hola mundo!??");
-    //System.out.println("BASE_URL : " + constants.getString("base_url"));
     exception(Exception.class, (e, req, res) -> e.printStackTrace());
 		staticFiles.location("/public");
 		staticFiles.header("Access-Control-Allow-Origin", "*");
 		staticFiles.header("Access-Control-Request-Method",  "*");
 		staticFiles.header("Access-Control-Allow-Headers",  "*");
 		//staticFiles.expireTime(600);
+		//puerto
 		port(2000);
+		//CORS
 		options("/*", (request, response) -> {
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
@@ -32,6 +31,7 @@ public class App {
 			}
 			return "OK";
 		});
+		//before filter
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 			response.header("Access-Control-Request-Method",  "*");
@@ -46,6 +46,7 @@ public class App {
   }
 
   public static String renderTemplate(String template, Map model) {
+		//usar velocity como motor de templates
     Config constants = ConfigFactory.parseResources("config/application.conf");
 		model.put("constantes", constants);
 		VelocityTemplateEngine vt = new VelocityTemplateEngine();
