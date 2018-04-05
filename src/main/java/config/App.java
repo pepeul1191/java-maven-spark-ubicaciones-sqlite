@@ -7,7 +7,8 @@ import spark.*;
 import spark.template.velocity.*;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
-import handlers.*;
+import handlers.HomeHandler;
+import handlers.DepartamentoHanlder;
 
 public class App {
   public static void main(String args[]){
@@ -41,8 +42,13 @@ public class App {
 			// Note: this may or may not be necessary in your particular application
 			//response.type("application/json");
 		});
+		//ruta de test/conexion
+		get("/test/conexion", (request, response) -> {
+			return "Conxión OK";
+		});	
 		//rutas
 		get("/", HomeHandler.index);
+		get("/departamento/listar", DepartamentoHanlder.listar);
   }
 
   public static String renderTemplate(String template, Map model) {
