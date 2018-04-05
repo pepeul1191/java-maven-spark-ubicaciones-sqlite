@@ -7,12 +7,12 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "departamentos")
 public class Departamento implements Serializable {
   private static final long serialVersionUID = 1L;
-  @DatabaseField(id = true)
+  @DatabaseField(generatedId = true)
   private int id;
   @DatabaseField(canBeNull = false, columnName = "nombre")
   private String nombre;
 
-  Departamento(){}
+  public Departamento(){}
 
   public int getId() { return id; }
 

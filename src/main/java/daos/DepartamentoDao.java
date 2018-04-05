@@ -12,19 +12,26 @@ import models.Departamento;
 import config.Database;
 
 public class DepartamentoDao{
+  private ConnectionSource connectionSource;
+  private Dao<Departamento,String> dao; 
+  
   public DepartamentoDao(){
+    try {
+      Database conexion = new Database();
+      this.connectionSource = conexion.getConnectionSource();
+      this.dao = DaoManager.createDao(this.connectionSource, Departamento.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public String listar(){
     String rpta = "";
     try {
-      Database conexion = new Database();
-      ConnectionSource connectionSource = conexion.getConnectionSource();
       List<JSONObject> rptaTemp = new ArrayList<JSONObject>();
-      Dao<Departamento, String> departamentoDao = DaoManager.createDao(connectionSource, Departamento.class);
-      QueryBuilder<Departamento, String> queryBuilder = departamentoDao.queryBuilder();
+      QueryBuilder<Departamento, String> queryBuilder = this.dao.queryBuilder();
       PreparedQuery<Departamento> preparedQuery = queryBuilder.prepare();
-      List<Departamento> departamentoList = departamentoDao.query(preparedQuery);
+      List<Departamento> departamentoList = this.dao.query(preparedQuery);
       for (Departamento departamento : departamentoList) {
         JSONObject obj = new JSONObject();
         obj.put("id", departamento.getId());
@@ -39,6 +46,19 @@ public class DepartamentoDao{
       rptaTry.put("tipo_mensaje", "error");
       rptaTry.put("mensaje", error);
       rpta = rptaTry.toString();
+    }
+    return rpta;
+  }
+
+  public int crear(String nombre){
+    int rpta = 0;
+    try {
+      Departamento departamento = new Departamento();
+      departamento.setNombre(nombre);
+      this.dao.create(departamento);
+      rpta = departamento.getId();
+    }catch (Exception e) {
+      e.printStackTrace();
     }
     return rpta;
   }

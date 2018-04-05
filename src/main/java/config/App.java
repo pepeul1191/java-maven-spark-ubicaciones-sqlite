@@ -49,6 +49,7 @@ public class App {
 		//rutas
 		get("/", HomeHandler.index);
 		get("/departamento/listar", DepartamentoHanlder.listar);
+		post("/departamento/guardar", DepartamentoHanlder.guardar);
   }
 
   public static String renderTemplate(String template, Map model) {

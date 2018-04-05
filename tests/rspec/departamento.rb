@@ -64,6 +64,9 @@ def guardar
         url = 'departamento/guardar?data=' + data
         test = App.new(url)
         test.post()
+        if test.response.code != 200 then
+          puts test.response.body
+        end
         expect(test.response.code).to eq(200)
         expect(test.response.body).not_to include('error')
         expect(test.response.body).to include('Se ha registrado los cambios en los departamentos')
@@ -73,5 +76,5 @@ def guardar
     end
   end
 end
-listar
-#guardar
+#listar
+guardar

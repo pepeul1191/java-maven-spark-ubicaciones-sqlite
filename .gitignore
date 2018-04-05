@@ -17,3 +17,4 @@ package-lock.json
 /src/main/resources/public/bower_components
 /src/main/resources/public/dist
 Gemfile.lock
+db/ubicaciones.db
