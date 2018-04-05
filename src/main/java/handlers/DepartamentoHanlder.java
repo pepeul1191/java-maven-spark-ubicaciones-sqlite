@@ -32,18 +32,22 @@ public class DepartamentoHanlder{
           String id = departamento.getString("id");
           String nombre = departamento.getString("nombre");
           int nuevoId = departamentoDao.crear(nombre);
+          //t = {:temporal => nuevo['id'], :nuevo_id => n.id}
+          //array_nuevos.push(t)
         }
       }
       if(editados.length() > 0){
         for (int i = 0; i < editados.length(); i++) {
           JSONObject departamento = editados.getJSONObject(i);
-          String id = departamento.getString("id");
+          int id = departamento.getInt("id");
           String nombre = departamento.getString("nombre");
+          departamentoDao.editar(id, nombre);
         }
       }
       if(eliminados.length() > 0){
         for (Object eliminado : eliminados) {
           int eleminadoId = (Integer)eliminado;
+          departamentoDao.eliminar(eleminadoId);
         }
       }
     } catch (Exception e) {
@@ -53,6 +57,9 @@ public class DepartamentoHanlder{
       rptaTry.put("tipo_mensaje", "error");
       rptaTry.put("mensaje", error);
       rpta = rptaTry.toString();
+      //Sequel::Rollback
+      //error = true
+      //execption = e
     }
     System.out.println("A ++++++++++++++++++++++++++++++++++++++++++");
     System.out.println(rpta);

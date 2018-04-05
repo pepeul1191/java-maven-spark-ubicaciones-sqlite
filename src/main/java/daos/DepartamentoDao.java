@@ -6,12 +6,13 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import org.json.JSONObject;
 import models.Departamento;
 import config.Database;
 
-public class DepartamentoDao{
+public class DepartamentoDao {
   private ConnectionSource connectionSource;
   private Dao<Departamento,String> dao; 
   
@@ -50,7 +51,7 @@ public class DepartamentoDao{
     return rpta;
   }
 
-  public int crear(String nombre){
+  public int crear(String nombre) throws Exception{
     int rpta = 0;
     try {
       Departamento departamento = new Departamento();
@@ -58,8 +59,23 @@ public class DepartamentoDao{
       this.dao.create(departamento);
       rpta = departamento.getId();
     }catch (Exception e) {
-      e.printStackTrace();
+      throw e;
     }
     return rpta;
+  }
+
+  public void editar(int id, String nombre) throws Exception{
+    try {
+      UpdateBuilder<Departamento, String> updateBuilder = this.dao.updateBuilder();
+      updateBuilder.updateColumnValue("nombre", nombre);
+      updateBuilder.where().eq("id", id);
+      updateBuilder.update();
+    }catch (Exception e) {
+      throw e;
+    }
+  }
+
+  public void eliminar(int id){
+    System.out.println(" +++++++++++++++++++++++++++++ ELIMINADO");
   }
 }

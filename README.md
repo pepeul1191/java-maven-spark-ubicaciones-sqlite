@@ -159,3 +159,4 @@ Fuentes
 + http://kosalads.blogspot.pe/2014/03/maven-deploy-war-in-tomcat-7.html
 + https://stackoverflow.com/questions/9846046/run-main-class-of-maven-project
 + https://stackoverflow.com/questions/32923586/maven-lambda-expressions-are-not-supported-in-source-1-5
++ https://stackoverflow.com/questions/11040362/update-all-columns-in-ormlite-database-table-in-android
