@@ -1,6 +1,5 @@
 package daos;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.j256.ormlite.dao.Dao;
@@ -9,30 +8,22 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.support.ConnectionSource;
 import org.json.JSONObject;
 import models.Departamento;
 import config.Database;
 
-public class DepartamentoDao {
-  private ConnectionSource connectionSource;
+public class DepartamentoDao extends Database{
   private Dao<Departamento,String> dao; 
   
-  public DepartamentoDao(){
+  public DepartamentoDao() throws Exception{
     try {
-      Database conexion = new Database();
-      this.connectionSource = conexion.getConnectionSource();
       this.dao = DaoManager.createDao(this.connectionSource, Departamento.class);
     } catch (Exception e) {
-      e.printStackTrace();
+      throw e;
     }
   }
 
-  public void close() throws IOException{
-    this.connectionSource.close();
-  }
-
-  public String listar(){
+  public String listar()  throws Exception{
     String rpta = "";
     try {
       List<JSONObject> rptaTemp = new ArrayList<JSONObject>();
@@ -47,12 +38,7 @@ public class DepartamentoDao {
       }
       rpta = rptaTemp.toString();
     } catch (Exception e) {
-      //e.printStackTrace();
-      String[] error = {"Se ha producido un error en  listar los sistemas registrado", e.toString()};
-      JSONObject rptaTry = new JSONObject();
-      rptaTry.put("tipo_mensaje", "error");
-      rptaTry.put("mensaje", error);
-      rpta = rptaTry.toString();
+      throw e;
     }
     return rpta;
   }

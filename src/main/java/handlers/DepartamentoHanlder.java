@@ -13,8 +13,20 @@ import config.Database;
 
 public class DepartamentoHanlder{
   public static Route listar = (Request request, Response response) -> {
+    String rpta = "";
     DepartamentoDao departamentoDao = new DepartamentoDao();
-    return departamentoDao.listar();
+    try {
+      rpta = departamentoDao.listar();
+    }catch (Exception e) {
+      String[] error = {"Se ha producido un error en  listar los departamentos registrados", e.toString()};
+      JSONObject rptaTry = new JSONObject();
+      rptaTry.put("tipo_mensaje", "error");
+      rptaTry.put("mensaje", error);
+      rpta = rptaTry.toString();
+    } finally {
+      departamentoDao.close();
+    }
+    return rpta;
   };
 
   public static Route guardar = (Request request, Response response) -> {
