@@ -6,6 +6,8 @@ import spark.Route;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import com.j256.ormlite.support.ConnectionSource;
+import java.util.ArrayList;
+import java.util.List;
 import daos.DepartamentoDao;
 import config.Database;
 
@@ -21,19 +23,21 @@ public class DepartamentoHanlder{
     JSONArray nuevos = data.getJSONArray("nuevos");
     JSONArray editados = data.getJSONArray("editados");
     JSONArray eliminados = data.getJSONArray("eliminados");
-    //array_nuevos = []
-    //error = false
-    //execption = nil
+    List<JSONObject> listJSONNuevos = new ArrayList<JSONObject>();
+    boolean error = false;
+    String execption = "";
+    DepartamentoDao departamentoDao = new DepartamentoDao();
     try {
-      DepartamentoDao departamentoDao = new DepartamentoDao();
       if(nuevos.length() > 0){
         for (int i = 0; i < nuevos.length(); i++) {
           JSONObject departamento = nuevos.getJSONObject(i);
-          String id = departamento.getString("id");
+          String antiguoId = departamento.getString("id");
           String nombre = departamento.getString("nombre");
           int nuevoId = departamentoDao.crear(nombre);
-          //t = {:temporal => nuevo['id'], :nuevo_id => n.id}
-          //array_nuevos.push(t)
+          JSONObject temp = new JSONObject();
+          temp.put("temporal", antiguoId);
+          temp.put("nuevo_id", nuevoId);
+          listJSONNuevos.add(temp);
         }
       }
       if(editados.length() > 0){
@@ -51,19 +55,25 @@ public class DepartamentoHanlder{
         }
       }
     } catch (Exception e) {
-      //e.printStackTrace();
-      String[] error = {"Se ha producido un error en  guardar los departamento", e.toString()};
-      JSONObject rptaTry = new JSONObject();
-      rptaTry.put("tipo_mensaje", "error");
-      rptaTry.put("mensaje", error);
-      rpta = rptaTry.toString();
+      error = true;
+      execption = e.toString();
       //Sequel::Rollback
-      //error = true
-      //execption = e
+    } finally {
+      departamentoDao.close();
     }
-    System.out.println("A ++++++++++++++++++++++++++++++++++++++++++");
-    System.out.println(rpta);
-    System.out.println("B ++++++++++++++++++++++++++++++++++++++++++");
+    if(error){
+      String[] cuerpoMensaje = {"Se ha producido un error en  guardar los departamento", execption};
+      JSONObject rptaMensaje = new JSONObject();
+      rptaMensaje.put("tipo_mensaje", "error");
+      rptaMensaje.put("mensaje", cuerpoMensaje);
+      rpta = rptaMensaje.toString();
+    }else{
+      String[] cuerpoMensaje = {"Se ha registrado los cambios en los departamentos", listJSONNuevos.toString()};
+      JSONObject rptaMensaje = new JSONObject();
+      rptaMensaje.put("tipo_mensaje", "success");
+      rptaMensaje.put("mensaje", cuerpoMensaje);
+      rpta = rptaMensaje.toString();
+    }
     return rpta;
   };
 }

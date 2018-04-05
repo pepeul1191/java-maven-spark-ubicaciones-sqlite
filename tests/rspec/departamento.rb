@@ -66,6 +66,10 @@ def guardar
         test.post()
         if test.response.code != 200 then
           puts test.response.body
+        else
+          puts "1 +++++++++++++++++++++++++++++++++++++"
+          puts test.response.body
+          puts "2 +++++++++++++++++++++++++++++++++++++"
         end
         expect(test.response.code).to eq(200)
         expect(test.response.body).not_to include('error')

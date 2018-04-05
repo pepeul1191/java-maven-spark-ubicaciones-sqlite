@@ -1,5 +1,6 @@
 package daos;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.j256.ormlite.dao.Dao;
@@ -25,6 +26,10 @@ public class DepartamentoDao {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void close() throws IOException{
+    this.connectionSource.close();
   }
 
   public String listar(){
