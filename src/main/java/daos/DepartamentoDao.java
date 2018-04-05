@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import org.json.JSONObject;
 import models.Departamento;
@@ -75,7 +76,13 @@ public class DepartamentoDao {
     }
   }
 
-  public void eliminar(int id){
-    System.out.println(" +++++++++++++++++++++++++++++ ELIMINADO");
+  public void eliminar(int id) throws Exception{
+    try {
+      DeleteBuilder<Departamento, String> deleteBuilder = this.dao.deleteBuilder();
+      deleteBuilder.where().eq("id", id);
+      deleteBuilder.delete();
+    }catch (Exception e) {
+      throw e;
+    }
   }
 }

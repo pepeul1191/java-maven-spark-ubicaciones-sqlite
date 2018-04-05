@@ -56,7 +56,7 @@ def guardar
               :pais_id => 2,
             },
           ],  
-          :eliminados => [7],
+          :eliminados => [4,5,67],
           :extra => {
             :campo_id => 20
           }
