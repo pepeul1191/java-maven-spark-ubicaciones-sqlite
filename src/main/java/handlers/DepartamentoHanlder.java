@@ -1,15 +1,15 @@
 package handlers;
 
+import com.j256.ormlite.misc.TransactionManager;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import com.j256.ormlite.support.ConnectionSource;
 import java.util.ArrayList;
 import java.util.List;
 import daos.DepartamentoDao;
-import config.Database;
+import java.util.concurrent.Callable;
 
 public class DepartamentoHanlder{
   public static Route listar = (Request request, Response response) -> {
@@ -40,36 +40,41 @@ public class DepartamentoHanlder{
     String execption = "";
     DepartamentoDao departamentoDao = new DepartamentoDao();
     try {
-      if(nuevos.length() > 0){
-        for (int i = 0; i < nuevos.length(); i++) {
-          JSONObject departamento = nuevos.getJSONObject(i);
-          String antiguoId = departamento.getString("id");
-          String nombre = departamento.getString("nombre");
-          int nuevoId = departamentoDao.crear(nombre);
-          JSONObject temp = new JSONObject();
-          temp.put("temporal", antiguoId);
-          temp.put("nuevo_id", nuevoId);
-          listJSONNuevos.add(temp);
-        }
-      }
-      if(editados.length() > 0){
-        for (int i = 0; i < editados.length(); i++) {
-          JSONObject departamento = editados.getJSONObject(i);
-          int id = departamento.getInt("id");
-          String nombre = departamento.getString("nombre");
-          departamentoDao.editar(id, nombre);
-        }
-      }
-      if(eliminados.length() > 0){
-        for (Object eliminado : eliminados) {
-          int eleminadoId = (Integer)eliminado;
-          departamentoDao.eliminar(eleminadoId);
-        }
-      }
-    } catch (Exception e) {
+      TransactionManager.callInTransaction(departamentoDao.getConnectionSource(),
+        new Callable<Void>() {
+          public Void call() throws Exception {
+            if(nuevos.length() > 0){
+              for (int i = 0; i < nuevos.length(); i++) {
+                JSONObject departamento = nuevos.getJSONObject(i);
+                String antiguoId = departamento.getString("id");
+                String nombre = departamento.getString("nombre");
+                int nuevoId = departamentoDao.crear(nombre);
+                JSONObject temp = new JSONObject();
+                temp.put("temporal", antiguoId);
+                temp.put("nuevo_id", nuevoId);
+                listJSONNuevos.add(temp);
+              }
+            }
+            if(editados.length() > 0){
+              for (int i = 0; i < editados.length(); i++) {
+                JSONObject departamento = editados.getJSONObject(i);
+                int id = departamento.getInt("id");
+                String nombre = departamento.getString("nombre");
+                departamentoDao.editar(id, nombre);
+              }
+            }
+            if(eliminados.length() > 0){
+              for (Object eliminado : eliminados) {
+                int eleminadoId = (Integer)eliminado;
+                departamentoDao.eliminar(eleminadoId);
+              }
+            }
+            return null;
+         };
+      }); 
+    }catch (Exception e) {
       error = true;
       execption = e.toString();
-      //Sequel::Rollback
     } finally {
       departamentoDao.close();
     }

@@ -46,7 +46,7 @@ public class App {
 		get("/test/conexion", (request, response) -> {
 			return "Conxión OK";
 		});	
-		//rutas
+		//rutas a handlers
 		get("/", HomeHandler.index);
 		get("/departamento/listar", DepartamentoHanlder.listar);
 		post("/departamento/guardar", DepartamentoHanlder.guardar);

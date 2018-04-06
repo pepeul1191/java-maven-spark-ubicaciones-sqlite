@@ -160,3 +160,4 @@ Fuentes
 + https://stackoverflow.com/questions/9846046/run-main-class-of-maven-project
 + https://stackoverflow.com/questions/32923586/maven-lambda-expressions-are-not-supported-in-source-1-5
 + https://stackoverflow.com/questions/11040362/update-all-columns-in-ormlite-database-table-in-android
++ http://ormlite.com/javadoc/ormlite-core/doc-files/ormlite_5.html#Transactions
